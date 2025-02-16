@@ -1,0 +1,80 @@
+<div class="card">
+  <form [formGroup]="sellerForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+    <div class="text-center mb-5">
+      <h2 class="text-4xl font-bold text-900">{{ isEditing ? 'Editar' : 'Registro de' }} Vendedor</h2>
+      <span class="text-600 font-medium">{{ isEditing ? 'Modifique' : 'Complete' }} los datos del vendedor</span>
+    </div>
+
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="flex flex-column gap-2">
+          <label for="name" class="font-medium text-900">Nombre</label>
+          <input pInputText id="name" formControlName="name" placeholder="Ingrese el nombre completo"
+            class="p-inputtext-lg" />
+          @if (sellerForm.get('name')?.errors?.['required'] && sellerForm.get('name')?.touched) {
+          <small class="text-red-500">El nombre es requerido</small>
+          }
+          @if (sellerForm.get('name')?.errors?.['minlength'] && sellerForm.get('name')?.touched) {
+          <small class="text-red-500">El nombre debe tener al menos 3 caracteres</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="flex flex-column gap-2">
+          <label for="email" class="font-medium text-900">Correo Electrónico</label>
+          <input pInputText id="email" formControlName="email" placeholder="Ingrese el correo electrónico"
+            class="p-inputtext-lg" />
+          @if (sellerForm.get('email')?.errors?.['required'] && sellerForm.get('email')?.touched) {
+          <small class="text-red-500">El correo electrónico es requerido</small>
+          }
+          @if (sellerForm.get('email')?.errors?.['email'] && sellerForm.get('email')?.touched) {
+          <small class="text-red-500">Ingrese un correo electrónico válido</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="flex flex-column gap-2">
+          <label for="phone" class="font-medium text-900">Teléfono</label>
+          <input pInputText id="phone" formControlName="phone" placeholder="Ingrese el número de teléfono"
+            class="p-inputtext-lg" />
+          @if (sellerForm.get('phone')?.errors?.['required'] && sellerForm.get('phone')?.touched) {
+          <small class="text-red-500">El teléfono es requerido</small>
+          }
+          @if (sellerForm.get('phone')?.errors?.['pattern'] && sellerForm.get('phone')?.touched) {
+          <small class="text-red-500">Ingrese un número de teléfono válido</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="flex flex-column gap-2">
+          <label for="documentId" class="font-medium text-900">Documento de Identidad</label>
+          <input pInputText id="documentId" formControlName="documentId" placeholder="Ingrese el documento de identidad"
+            class="p-inputtext-lg" />
+          @if (sellerForm.get('documentId')?.errors?.['required'] && sellerForm.get('documentId')?.touched) {
+          <small class="text-red-500">El documento de identidad es requerido</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="flex flex-column gap-2">
+          <label for="isActive" class="font-medium text-900">Estado</label>
+          <p-dropdown id="isActive" formControlName="isActive" [options]="statusOptions"
+            placeholder="Seleccione un estado" class="w-full" [style]="{'height': '3rem'}" />
+          @if (sellerForm.get('isActive')?.errors?.['required'] && sellerForm.get('isActive')?.touched) {
+          <small class="text-red-500">El estado es requerido</small>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="flex align-items-center justify-content-center gap-4 mt-4">
+      <p-button type="button" label="Cancelar" severity="danger" class="p-button-lg" (click)="onCancel()" />
+      <p-button type="submit" [label]="isEditing ? 'Actualizar' : 'Guardar'" class="p-button-lg"
+        [disabled]="sellerForm.invalid" />
+    </div>
+  </form>
+</div>

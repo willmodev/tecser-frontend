@@ -11,6 +11,14 @@ export const routes: Routes = [
     loadChildren: () => import('./product/product.routes')
   },
   {
+    path: 'sellers',
+    loadChildren: () => import('./seller/seller.routes')
+  },
+  {
+    path: 'sales',
+    loadChildren: () => import('./sale/sale.routes')
+  },
+  {
     path: '**',
     redirectTo: 'admin'
   }

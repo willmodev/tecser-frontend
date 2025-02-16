@@ -5,6 +5,6 @@ import { MenubarModule } from 'primeng/menubar'
 @Component({
   selector: 'app-product-layout',
   imports: [RouterOutlet, MenubarModule],
-  templateUrl: './ProductLayout.component.html',
+  templateUrl: './product-layout.component.html',
 })
 export class ProductLayoutComponent { }

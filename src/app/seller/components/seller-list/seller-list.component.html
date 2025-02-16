@@ -1,0 +1,31 @@
+<div class="card">
+  <p-table [value]="sellers()" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Documento</th>
+        <th>Correo</th>
+        <th>Fecha Registro</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-seller>
+      <tr [ngStyle]="rowStyle(seller)">
+        <td>{{ seller.id }}</td>
+        <td>{{ seller.name }}</td>
+        <td>{{ seller.documentId }}</td>
+        <td>{{ seller.email }}</td>
+        <td>{{ seller.registrationDate | date:'shortDate' }}</td>
+        <td>
+          <p-badge [value]="seller.isActive ? 'Activo' : 'Inactivo'" [severity]="statusSeverity(seller)" />
+        </td>
+        <td>
+          <p-button class="pl-3" [routerLink]="['/sellers/edit', seller.id]" [rounded]="true" pTooltip="Editar"
+            tooltipPosition="left" icon="pi pi-pen-to-square" severity="info" />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

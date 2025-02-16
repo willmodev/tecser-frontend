@@ -24,11 +24,15 @@ export class AppComponent {
         icon: 'pi pi-shopping-cart',
         routerLink: ['/products']
       },
-
       {
         label: 'Vendedores',
         icon: 'pi pi-user',
         routerLink: ['/sellers']
+      },
+      {
+        label: 'Ventas',
+        icon: 'pi pi-money-bill',
+        routerLink: ['/sales']
       }
     ]
   }

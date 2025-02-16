@@ -1,0 +1,123 @@
+<div class="card">
+  <h2 class="text-2xl font-bold mb-4">Nueva Venta</h2>
+
+  <form [formGroup]="saleForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+    <!-- Header Section -->
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-hashtag"></i></span>
+          <input pInputText formControlName="saleNumber" placeholder="Número de Venta" />
+        </div>
+        @if (saleForm.get('saleNumber')?.hasError('required') && saleForm.get('saleNumber')?.touched) {
+        <small class="p-error">El número de venta es requerido</small>
+        }
+      </div>
+
+      <div class="col-12 md:col-6">
+        <p-autoComplete formControlName="selectedSeller" [suggestions]="filteredSellers()"
+          (completeMethod)="filterSellers($event)" field="name" placeholder="Buscar Vendedor" [dropdown]="true"
+          class="w-full">
+          <ng-template let-seller pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <i class="pi pi-user"></i>
+              <span>{{seller.name}}</span>
+            </div>
+          </ng-template>
+        </p-autoComplete>
+      </div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="card">
+      <h3 class="text-xl mb-3">Agregar Productos</h3>
+
+      <div class="flex gap-3 mb-4">
+        <p-autoComplete [ngModel]="selectedProduct()" [ngModelOptions]="{standalone: true}"
+          (ngModelChange)="selectedProduct.set($event)" [suggestions]="filteredProducts()"
+          (completeMethod)="filterProducts($event)" field="name" placeholder="Buscar Producto" [dropdown]="true"
+          class="w-full">
+          <ng-template let-product pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <i class="pi pi-box"></i>
+              <div class="flex flex-column">
+                <span>{{product.name}}</span>
+                <small class="text-primary">{{product.price | currency:'COP'}}</small>
+              </div>
+            </div>
+          </ng-template>
+        </p-autoComplete>
+
+        <p-button icon="pi pi-plus" (onClick)="addSaleDetail()" [disabled]="!selectedProduct()" severity="success">
+        </p-button>
+      </div>
+
+      @if (saleDetails.controls.length === 0) {
+      <div class="text-center p-4 surface-ground border-round">
+        <i class="pi pi-shopping-cart text-4xl text-primary mb-3"></i>
+        <p class="text-700">No hay productos agregados a la venta</p>
+      </div>
+      } @else {
+      <p-table [value]="saleDetails.controls" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Producto</th>
+            <th style="width: 150px">Cantidad</th>
+            <th style="width: 150px">Precio Unit.</th>
+            <th style="width: 150px">Subtotal</th>
+            <th style="width: 80px"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-detail let-i="rowIndex">
+          <tr [formGroup]="detail">
+            <td>{{detail.get('productName')?.value}}</td>
+            <td>
+              <p-inputNumber formControlName="quantity" [showButtons]="true" [min]="1" (onInput)="updateSubtotal(i)"
+                class="w-full">
+              </p-inputNumber>
+            </td>
+            <td>
+              <p-inputNumber formControlName="unitPrice" mode="currency" currency="COP" locale="es-CO"
+                (onInput)="updateSubtotal(i)" class="w-full">
+              </p-inputNumber>
+            </td>
+            <td>
+              {{detail.get('subtotal')?.value | currency:'COP':'symbol':'1.0-0'}}
+            </td>
+            <td>
+              <p-button icon="pi pi-trash" (onClick)="removeSaleDetail(i)" severity="danger" [rounded]="true">
+              </p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td colspan="3" class="text-right font-bold">Total:</td>
+            <td colspan="2" class="font-bold">
+              {{saleForm.get('totalAmount')?.value | currency:'COP':'symbol':'1.0-0'}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      }
+    </div>
+
+    <div class="flex flex-column gap-2">
+      <span class="p-float-label">
+        <textarea pInputTextarea formControlName="comments" [rows]="3" class="w-full">
+        </textarea>
+        <label>Comentarios</label>
+      </span>
+    </div>
+
+    <div class="flex justify-content-end gap-2">
+      <p-button label="Cancelar" severity="secondary" [outlined]="true" routerLink="/sales">
+      </p-button>
+      <p-button label="Guardar Venta" type="submit" [disabled]="saleForm.invalid || saleDetails.length === 0"
+        severity="success">
+      </p-button>
+    </div>
+  </form>
+</div>
+
+<p-toast position="top-right"></p-toast>

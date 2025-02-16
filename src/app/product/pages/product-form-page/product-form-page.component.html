@@ -1,0 +1,83 @@
+<div class="card">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+    <div class="text-center mb-5">
+      <h2 class="text-4xl font-bold text-900">{{ isEditing ? 'Editar' : 'Registro de' }} Producto</h2>
+      <span class="text-600 font-medium">{{ isEditing ? 'Modifique' : 'Complete' }} los datos del producto</span>
+    </div>
+
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="flex flex-column gap-2">
+          <label for="name" class="font-medium text-900">Nombre del Producto</label>
+          <input pInputText id="name" formControlName="name" placeholder="Ingrese el nombre del producto"
+            class="p-inputtext-lg" />
+          @if (productForm.get('name')?.errors?.['required'] && productForm.get('name')?.touched) {
+          <small class="text-red-500">El nombre es requerido</small>
+          }
+          @if (productForm.get('name')?.errors?.['minlength'] && productForm.get('name')?.touched) {
+          <small class="text-red-500">El nombre debe tener al menos 3 caracteres</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="flex flex-column gap-2">
+          <label for="status" class="font-medium text-900">Estado</label>
+          <p-dropdown id="status" formControlName="status" [options]="statusOptions" placeholder="Seleccione un estado"
+            class="w-full" [style]="{'height': '3rem'}" />
+          @if (productForm.get('status')?.errors?.['required'] && productForm.get('status')?.touched) {
+          <small class="text-red-500">El estado es requerido</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="flex flex-column gap-2">
+          <label for="description" class="font-medium text-900">Descripción</label>
+          <textarea pInputTextarea id="description" formControlName="description"
+            placeholder="Ingrese la descripción del producto" rows="3" class="p-inputtext-lg"></textarea>
+          @if (productForm.get('description')?.errors?.['required'] && productForm.get('description')?.touched) {
+          <small class="text-red-500">La descripción es requerida</small>
+          }
+          @if (productForm.get('description')?.errors?.['minlength'] && productForm.get('description')?.touched) {
+          <small class="text-red-500">La descripción debe tener al menos 10 caracteres</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="flex flex-column gap-2">
+          <label for="price" class="font-medium text-900">Precio</label>
+          <p-inputNumber id="price" formControlName="price" placeholder="Ingrese el precio" [showButtons]="true"
+            mode="currency" currency="USD" locale="en-US" class="w-full" [inputStyleClass]="'p-inputtext-lg'" />
+          @if (productForm.get('price')?.errors?.['required'] && productForm.get('price')?.touched) {
+          <small class="text-red-500">El precio es requerido</small>
+          }
+          @if (productForm.get('price')?.errors?.['min'] && productForm.get('price')?.touched) {
+          <small class="text-red-500">El precio debe ser mayor a 0</small>
+          }
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="flex flex-column gap-2">
+          <label for="stock" class="font-medium text-900">Stock</label>
+          <p-inputNumber id="stock" formControlName="stock" placeholder="Ingrese el stock" [showButtons]="true"
+            [min]="0" class="w-full" [inputStyleClass]="'p-inputtext-lg'" />
+          @if (productForm.get('stock')?.errors?.['required'] && productForm.get('stock')?.touched) {
+          <small class="text-red-500">El stock es requerido</small>
+          }
+          @if (productForm.get('stock')?.errors?.['min'] && productForm.get('stock')?.touched) {
+          <small class="text-red-500">El stock debe ser mayor o igual a 0</small>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="flex align-items-center justify-content-center gap-4 mt-4">
+      <p-button type="button" label="Cancelar" severity="danger" class="p-button-lg" (click)="onCancel()" />
+      <p-button type="submit" [label]="isEditing ? 'Actualizar' : 'Guardar'" class="p-button-lg"
+        [disabled]="productForm.invalid" />
+    </div>
+  </form>
+</div>

@@ -1,0 +1,32 @@
+<div class="card">
+  <p-table [value]="products()" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #header>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Cantidad(Stock)</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-product>
+      <tr [ngStyle]="rowStyle(product)">
+        <td>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>
+          <p-badge [value]="product.stock" [severity]="stockSeverity(product)" />
+        </td>
+        <td>
+          <p-badge [value]="product.status" [severity]="statusSeverity(product)" />
+        </td>
+        <td>
+          <!-- <a [routerLink]="['/products/edit',product.id]" class="link-primary cursor-pointer">Más información</a> -->
+          <p-button class="pl-3" [routerLink]="['/products/edit',product.id]" [rounded]="true" pTooltip="Editar"
+            tooltipPosition="left" icon="pi pi-pen-to-square" severity="info" />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

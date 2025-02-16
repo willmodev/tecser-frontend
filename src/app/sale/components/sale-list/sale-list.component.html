@@ -1,0 +1,71 @@
+<p-table [value]="sales()" dataKey="id" [tableStyle]="{ 'min-width': '60rem' }" [expandedRowKeys]="expandedRows">
+  <ng-template #caption>
+    <div class="flex flex-wrap justify-end gap-2">
+      <p-button label="Expand All" icon="pi pi-plus" text (onClick)="expandAll()" />
+      <p-button label="Collapse All" icon="pi pi-minus" text (onClick)="collapseAll()" />
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th style="width: 5rem"></th>
+      <th>ID</th>
+      <th>Numero Venta</th>
+      <th>Fecha</th>
+      <th>Vendedor</th>
+      <th>Total</th>
+
+    </tr>
+  </ng-template>
+  <ng-template #body let-sale let-expanded="expanded">
+    <tr>
+      <td>
+        <p-button type="button" pRipple [pRowToggler]="sale" [text]="true" [rounded]="true" [plain]="true"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+      </td>
+      <td>{{ sale.id }}</td>
+      <td>{{ sale.saleNumber }}</td>
+      <td>{{ sale.date | date:'medium' }}</td>
+      <td>{{ sale.seller.name }}</td>
+      <td>{{ sale.totalAmount | currency : 'COP' }}</td>
+    </tr>
+  </ng-template>
+  <ng-template #expandedrow let-sale>
+    <tr>
+      <td colspan="7">
+        <div class="p-4">
+          <h4 class="text-primary-500">Detalles de la venta: <strong>{{ sale.saleNumber }}</strong></h4>
+          <p-table [value]="sale.saleDetails" dataKey="id">
+            <ng-template #header>
+    <tr>
+      <th>ID</th>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>Precio Unitario</th>
+      <th>Total</th>
+      <th style="width: 4rem"></th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-saleDetail>
+    <tr>
+      <td>{{ saleDetail.id }}</td>
+      <td>{{ saleDetail.productName }}</td>
+      <td>{{ saleDetail.quantity }}</td>
+      <td>{{ saleDetail.unitPrice | currency : 'COP' }}</td>
+      <td>{{ saleDetail.subtotal | currency : 'COP' }}</td>
+      <td>
+        <p-button class="pl-3" [routerLink]="['/products/edit', saleDetail.id]" [rounded]="true" pTooltip="Editar"
+          tooltipPosition="left" icon="pi pi-pen-to-square" severity="info" />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="6">There are no order for this product yet.</td>
+    </tr>
+  </ng-template>
+</p-table>
+</div>
+</td>
+</tr>
+</ng-template>
+</p-table>
