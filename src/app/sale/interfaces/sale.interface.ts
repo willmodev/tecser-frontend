@@ -17,11 +17,11 @@ export interface SaleDetail {
 export interface SaleResponse {
   id: number;
   saleNumber: string;
-  date: Date;
+  saleDate: Date;
   totalAmount: number;
   comments: string;
   seller: SellerResponse;
-  products: ProductResponse[];
+  products: null;
   saleDetails: SaleDetail[];
 }
 
@@ -34,5 +34,6 @@ export interface SaleDetailResponse {
   unitPrice: number;
   subtotal: number;
 }
+
 
 
