@@ -1,6 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule, FormsModule, PatternValidator } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -71,9 +71,9 @@ export class SaleFormPageComponent implements OnInit {
 
   private initForm(): void {
     this.saleForm = this.fb.group({
-      saleNumber: ['', Validators.required],
+      saleNumber: ['', [Validators.required, Validators.pattern(/^[A-Z0-9]{4,10}$/)]],
       sellerId: [null],
-      selectedSeller: [null],
+      selectedSeller: [null, Validators.required],
       totalAmount: [0],
       comments: [''],
       saleDetails: this.fb.array([])

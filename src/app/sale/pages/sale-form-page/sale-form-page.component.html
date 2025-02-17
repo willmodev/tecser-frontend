@@ -10,7 +10,12 @@
           <input pInputText formControlName="saleNumber" placeholder="Número de Venta" />
         </div>
         @if (saleForm.get('saleNumber')?.hasError('required') && saleForm.get('saleNumber')?.touched) {
-        <small class="p-error">El número de venta es requerido</small>
+        <small class="text-red-400">El número de venta es requerido</small>
+        }
+        @if (saleForm.get('saleNumber')?.hasError('pattern') && saleForm.get('saleNumber')?.touched) {
+        <small class="text-red-400 w-7 block pt-2">El número de venta debe tener entre 4 y 10 caracteres alfanuméricos
+          en
+          mayúsculas</small>
         }
       </div>
 
@@ -25,6 +30,9 @@
             </div>
           </ng-template>
         </p-autoComplete>
+        @if (saleForm.get('selectedSeller')?.hasError('required') && saleForm.get('selectedSeller')?.touched) {
+        <small class="text-red-300 block pt-2">El vendedor es requerido</small>
+        }
       </div>
     </div>
 
@@ -90,7 +98,7 @@
                 [max]="detail.get('stock')?.value" (onInput)="updateSubtotal(i)" class="w-full">
               </p-inputNumber>
               @if (detail.get('quantity')?.value > detail.get('stock')?.value) {
-              <small class="p-error">Excede el stock disponible</small>
+              <small class="text-red-300">Excede el stock disponible</small>
               }
             </td>
             <td>
@@ -110,7 +118,7 @@
         <ng-template pTemplate="footer">
           <tr>
             <td colspan="3" class="text-right font-bold">Total:</td>
-            <td colspan="2" class="font-bold">
+            <td colspan="3" class="font-bold">
               {{saleForm.get('totalAmount')?.value | currency:'COP':'symbol':'1.0-0'}}
             </td>
           </tr>
