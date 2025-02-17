@@ -5,11 +5,13 @@ import { RouterLink } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { TableModule, TableRowCollapseEvent, TableRowExpandEvent } from 'primeng/table';
-import { Tooltip } from 'primeng/tooltip';
+import { Tooltip, TooltipModule } from 'primeng/tooltip';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'sale-list',
-  imports: [TableModule, CommonModule, BadgeModule, ButtonModule, RouterLink, Tooltip],
+  imports: [TableModule, CommonModule, BadgeModule, ButtonModule, RouterLink],
   templateUrl: './sale-list.component.html',
 })
 export class SaleListComponent {

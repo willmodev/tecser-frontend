@@ -9,9 +9,9 @@ import { AutoComplete, AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
-import { Sale, SaleDetail } from '../../interfaces/sale.interface';
+import { Sale } from '../../interfaces/sale.interface';
 import { SellerResponse } from '../../../seller/interfaces/seller.interface';
-import { ProductResponse } from '../../../product/interfaces/product.interface';
+import { ProductResponse, Status } from '../../../product/interfaces/product.interface';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { SellerService } from '../../../seller/services/seller.service';
 import { ProductService } from '../../../product/services/product.service';
@@ -86,8 +86,6 @@ export class SaleFormPageComponent implements OnInit {
 
   filterSellers(event: any): void {
     const query = event.query.toLowerCase();
-    // Implement seller filtering logic
-
     this.filteredSellers.set(
       this.sellerResource.value()!.filter(seller =>
         seller.name.toLowerCase().includes(query)
@@ -98,8 +96,6 @@ export class SaleFormPageComponent implements OnInit {
 
   filterProducts(event: any): void {
     const query = event.query.toLowerCase();
-    // Implement product filtering logic
-
     this.filteredProducts.set(
       this.productResource.value()!.filter(product =>
         product.name.toLowerCase().includes(query)
@@ -110,9 +106,12 @@ export class SaleFormPageComponent implements OnInit {
   addSaleDetail(): void {
     if (!this.selectedProduct) return;
 
+    if (!this.canAddProduct()) return;
+
     const detail = this.fb.group({
       productId: [this.selectedProduct()?.id],
       productName: [this.selectedProduct()?.name],
+      stock: [this.selectedProduct()?.stock],
       quantity: [1, [Validators.required, Validators.min(1)]],
       unitPrice: [this.selectedProduct()?.price],
       subtotal: [this.selectedProduct()?.price]
@@ -141,6 +140,24 @@ export class SaleFormPageComponent implements OnInit {
       return sum + (detail.get('subtotal')?.value || 0);
     }, 0);
     this.saleForm.patchValue({ totalAmount: total });
+  }
+
+  canAddProduct(): boolean {
+    const product = this.selectedProduct();
+    if (!product) return false;
+
+    if (product.status !== Status.Activo || product.stock <= 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'No disponible',
+        detail: product.stock <= 0
+          ? 'El producto no tiene stock disponible'
+          : 'El producto no está activo'
+      });
+      return false;
+    }
+
+    return true;
   }
 
   onSubmit(): void {

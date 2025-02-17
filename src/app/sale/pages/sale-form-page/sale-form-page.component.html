@@ -42,7 +42,19 @@
               <i class="pi pi-box"></i>
               <div class="flex flex-column">
                 <span>{{product.name}}</span>
-                <small class="text-primary">{{product.price | currency:'COP'}}</small>
+                <small
+                  [class]="product.stock > 0 ? (product.status === 'INACTIVO') ? 'text-orange-400': 'text-primary' :  'text-red-400'">
+                  {{product.price | currency:'COP'}}
+                  @if (product.stock > 0) {
+                  Stock: {{product.stock}}
+                  }
+                  @if (product.stock === 0) {
+                  - Sin Stock
+                  }
+                  @if (product.status === 'INACTIVO') {
+                  - Inactivo
+                  }
+                </small>
               </div>
             </div>
           </ng-template>
@@ -62,6 +74,7 @@
         <ng-template pTemplate="header">
           <tr>
             <th>Producto</th>
+            <th style="width: 120px">Stock</th>
             <th style="width: 150px">Cantidad</th>
             <th style="width: 150px">Precio Unit.</th>
             <th style="width: 150px">Subtotal</th>
@@ -71,10 +84,14 @@
         <ng-template pTemplate="body" let-detail let-i="rowIndex">
           <tr [formGroup]="detail">
             <td>{{detail.get('productName')?.value}}</td>
+            <td>{{detail.get('stock')?.value}}</td>
             <td>
-              <p-inputNumber formControlName="quantity" [showButtons]="true" [min]="1" (onInput)="updateSubtotal(i)"
-                class="w-full">
+              <p-inputNumber formControlName="quantity" [showButtons]="true" [min]="1"
+                [max]="detail.get('stock')?.value" (onInput)="updateSubtotal(i)" class="w-full">
               </p-inputNumber>
+              @if (detail.get('quantity')?.value > detail.get('stock')?.value) {
+              <small class="p-error">Excede el stock disponible</small>
+              }
             </td>
             <td>
               <p-inputNumber formControlName="unitPrice" mode="currency" currency="COP" locale="es-CO"
