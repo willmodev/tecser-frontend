@@ -16,6 +16,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { SellerService } from '../../../seller/services/seller.service';
 import { ProductService } from '../../../product/services/product.service';
 import { SaleService } from '../../services/sale.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sale-form-page',
@@ -39,6 +40,9 @@ export class SaleFormPageComponent implements OnInit {
   private sellerService = inject(SellerService);
   private productService = inject(ProductService);
   private saleService = inject(SaleService);
+  private fb = inject(FormBuilder);
+  private messageService = inject(MessageService);
+  private router = inject(Router);
 
   saleForm!: FormGroup;
   filteredSellers = signal<SellerResponse[]>([]);
@@ -49,11 +53,6 @@ export class SaleFormPageComponent implements OnInit {
     this.saleDetails.controls.reduce((sum, detail) =>
       sum + (detail.get('subtotal')?.value || 0), 0)
   );
-
-  constructor(
-    private fb: FormBuilder,
-    private messageService: MessageService
-  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -104,6 +103,15 @@ export class SaleFormPageComponent implements OnInit {
   }
 
   addSaleDetail(): void {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Venta creada',
+      detail: 'La venta ha sido creada exitosamente',
+      life: 3000, // duración en milisegundos
+      key: 'global-toast'
+    });
+
+    return;
     if (!this.selectedProduct) return;
 
     if (!this.canAddProduct()) return;
