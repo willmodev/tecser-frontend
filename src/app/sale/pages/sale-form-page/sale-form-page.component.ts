@@ -103,15 +103,7 @@ export class SaleFormPageComponent implements OnInit {
   }
 
   addSaleDetail(): void {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Venta creada',
-      detail: 'La venta ha sido creada exitosamente',
-      life: 3000, // duración en milisegundos
-      key: 'global-toast'
-    });
 
-    return;
     if (!this.selectedProduct) return;
 
     if (!this.canAddProduct()) return;
@@ -181,7 +173,6 @@ export class SaleFormPageComponent implements OnInit {
     const sale: Sale = this.saleForm.value;
     const selectedSeller: SellerResponse = this.saleForm.get('selectedSeller')?.value;
 
-    console.log(sale)
 
     const saleCreate: Sale = {
       saleNumber: sale.saleNumber,
@@ -197,6 +188,8 @@ export class SaleFormPageComponent implements OnInit {
       })
 
     }
+
+    console.log(saleCreate);
     this.saleService.createSale(saleCreate).subscribe({
       next: () => {
         this.messageService.add({
@@ -206,7 +199,8 @@ export class SaleFormPageComponent implements OnInit {
         })
 
       },
-      error: () => {
+      error: (e) => {
+        console.log(e)
         this.messageService.add({
           severity: 'error',
           summary: 'Error',

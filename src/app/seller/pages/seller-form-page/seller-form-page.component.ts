@@ -61,7 +61,7 @@ export class SellerFormPageComponent implements OnInit {
             name: seller.name,
             email: seller.email,
             phone: seller.phone,
-            documentId: seller.documentId,
+            documentId: seller.documentNumber,
             isActive: seller.isActive
           });
         },

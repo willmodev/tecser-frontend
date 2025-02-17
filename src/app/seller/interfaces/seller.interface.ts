@@ -3,7 +3,7 @@ export interface SellerResponse {
   name: string;
   email: string;
   phone: string;
-  documentId: string;
+  documentNumber: string;
   registrationDate: Date;
   isActive: boolean;
 }
