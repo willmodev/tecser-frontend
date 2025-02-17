@@ -1,59 +1,94 @@
-# Frontend
+# Sales Management System Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.7.
+A modern web application built with Angular 19.1.7 for managing sales and sellers. This system provides an intuitive interface for tracking sales transactions and managing seller information.
 
-## Development server
+![Home Dashboard](public/assets/home.png)
 
-To start a local development server, run:
+## Features
 
+- Sales Management
+- Seller Registration and Management
+- Transaction History
+- Real-time Data Updates
+
+![Sales List](public/assets/ventas.png)
+![New Sale Form](public/assets/new-ventas.png)
+
+## Prerequisites
+
+Before you begin, ensure you have installed:
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+- Angular CLI (v19.1.7)
+
+## Getting Started
+
+1. Clone the repository:
 ```bash
-ng serve
+git clone <repository-url>
+cd frontend
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+2. Install dependencies:
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+3. Start the development server:
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+The application will be available at [http://localhost:4200](http://localhost:4200)
 
-To build the project run:
+## Environment Setup
 
+The application requires a backend API connection. Make sure to configure the environment variables in:
 ```bash
-ng build
+src/environments/environment.development.ts
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Build for Production
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
+To create a production build:
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+The build artifacts will be stored in the `dist/frontend` directory.
 
-For end-to-end (e2e) testing, run:
+## Technologies
 
-```bash
-ng e2e
+- Angular 19.1.7
+- RxJS
+- SCSS
+- Angular Material
+
+## Project Structure
+
+```
+frontend/
+├── src/
+│   ├── app/
+│   │   ├── sale/         # Sales module
+│   │   ├── seller/       # Sellers module
+│   │   ├── product/      # Products module
+│   │   └── shared/       # Shared components
+│   ├── assets/
+│   └── environments/
+└── public/
+    └── assets/           # Public images and resources
+```
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Contributing
 
-## Additional Resources
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
